@@ -9,6 +9,7 @@ import 'package:getx_model/app/controllers/home_controler.dart';
 class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
   final controler = Get.find<HomeController>();
+  bool _isSanakbar = true;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,20 @@ class HomeView extends StatelessWidget {
                   if (index == controler.restaurantList.length) {
                     return const Center(child: CircularProgressIndicator());
                   }
+
                   if (!controler.isPageAvailabe) {
-                    Future.delayed(Duration.zero).then(
-                      (value) => Get.snackbar(
-                        'Notice',
-                        'No more Data',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                      ),
-                    );
+                    // log('snakbar');
+                    _isSanakbar
+                        ? Future.delayed(Duration.zero).then((value) {
+                            _isSanakbar = false;
+                            Get.snackbar(
+                              'Notice',
+                              'No more Data',
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red,
+                            );
+                          })
+                        : Future.delayed(Duration.zero);
                   }
 
                   return Container(
